@@ -25,9 +25,11 @@ class Server:
 
     def __init__(self, state: SharedState):
         self.state = state
+        self.lock = asyncio.Lock()
 
     async def handle_request(self, value: int):
-        await self.state.modify(value)
+        async with self.lock:
+            await self.state.modify(value)
 
 
 async def main():

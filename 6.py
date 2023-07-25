@@ -33,7 +33,14 @@ def check_chain(filepath: Path) -> bool:
 
 
 def solution(response: Response) -> Path:
-    raise NotImplementedError
+    items = response.items
+    items.sort(key=lambda x: getattr(x, 'prev_item_id') if getattr(x, 'prev_item_id') is not None else 0)
+    response = Response(items=items, total=response.total)
+    json_data = json.dumps(response.__dict__, default=lambda x: x.__dict__, indent=2)
+    filepath = Path('sorted_response.json')
+    with open(filepath, 'w') as file:
+        file.write(json_data)
+    return filepath
 
 
 def main():

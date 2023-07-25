@@ -2,7 +2,13 @@ from functools import wraps
 
 
 def cls_method_decorator(param: int):
-    raise NotImplementedError
+    def decorator(func):
+        @wraps(func)
+        def wrapper(self, *args, **kwargs):
+            self.increment_var(param)
+            return func(self, *args, **kwargs)
+        return wrapper
+    return decorator
 
 
 class SomeClass:
@@ -28,13 +34,10 @@ class SomeClass:
     
     Ваша задача заключается в том, чтобы реализовать декоратор (cls_method_decorator) 
     Внутри он должен модифицировать some_var через вызов increment_var с указанным декоратору значением
-    
-    
     """
 
 
 if __name__ == '__main__':
     cls = SomeClass(20)
     cls.print_var()
-
     cls.some_func()

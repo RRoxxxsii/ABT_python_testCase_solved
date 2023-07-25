@@ -23,7 +23,19 @@ def main():
     
     Важно: написать наиболее эффективный алгоритм (по числу итераций)
     """
-    # тут явно нужен алгоритм
+    last_page = None
+    max_page_num = 10_000_000
+    first_page = 1
+
+    while max_page_num >= first_page:
+        middle_page = (first_page + max_page_num) // 2
+        if black_book(middle_page):
+            last_page = middle_page
+            first_page = middle_page + 1
+        else:
+            max_page_num = middle_page - 1
+
+    print(last_page)
 
 
 if __name__ == '__main__':
